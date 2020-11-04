@@ -332,7 +332,7 @@ namespace TheDock
             if (new FileInfo("TheDock.txt").Length == 0)
             {
                 Console.WriteLine($"{rejectedBoats}:rejected boats\t\t{days}:Day");
-                Console.WriteLine($"\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
+                Console.WriteLine($"\n\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
                 Console.WriteLine("--------------------------------------------------------------------------------------------");
                 for (; z < boatArray.Length; z++)
                 {
@@ -394,7 +394,7 @@ namespace TheDock
                $"\t\t{ConvertKnotToKmH(LinqAverageSpeed(boatArray, rowingBoatArray)):N0}Km/h :average speed");
                 Console.WriteLine();
                 LinqTypeOfBoats();
-                Console.WriteLine($"\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
+                Console.WriteLine($"\n\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
                 Console.WriteLine("--------------------------------------------------------------------------------------------");
                 for (; z < boatArray.Length; z++)
                 {
