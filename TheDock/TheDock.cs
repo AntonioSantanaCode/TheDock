@@ -15,6 +15,18 @@ namespace TheDock
         static Random rnd = new Random();
         static string boatID;
 
+        public static int OccupiedPlaces()
+        {
+            return boatArray
+            .Where(p => p != null)
+            .Count();
+        }
+        public static int EmptyPlaces()
+        {
+            return boatArray
+            .Where(p => p == null)
+            .Count();
+        }
         public static void StartsTheProgramTheDock()
         {
             if (new FileInfo("TheDock.txt").Length == 0)
@@ -43,31 +55,9 @@ namespace TheDock
         }
         public static void CreatesBoats()
         {
-            for (int boat = 0; boat < boatArray.Length; boat++)
-            {
-                if (boatArray[boat] != null)
-                {
-                    boatArray[boat].DaysInTheDock--;
+            CounterForDayInTheDockProp();
 
-                    if (boatArray[boat].DaysInTheDock == 0)
-                    {
-                        boatArray[boat] = null;
-                    }
-                }
-            }
-
-            for (int rBoat = 0; rBoat < rowingBoatArray.Length; rBoat++)
-            {
-                if (rowingBoatArray[rBoat] != null)
-                {
-                    rowingBoatArray[rBoat].DaysInTheDock--;
-                    if (rowingBoatArray[rBoat].DaysInTheDock == 0)
-                    {
-                        rowingBoatArray[rBoat] = null;
-                    }
-                }
-            }
-
+            // Switch-method for making boats.
             for (int i = 0; i < 5; i++)
             {
                 switch (rnd.Next(1, 6))
@@ -215,6 +205,33 @@ namespace TheDock
                 }
             }
         }
+        private static void CounterForDayInTheDockProp()
+        {
+            for (int boat = 0; boat < boatArray.Length; boat++)
+            {
+                if (boatArray[boat] != null)
+                {
+                    boatArray[boat].DaysInTheDock--;
+
+                    if (boatArray[boat].DaysInTheDock == 0)
+                    {
+                        boatArray[boat] = null;
+                    }
+                }
+            }
+
+            for (int rBoat = 0; rBoat < rowingBoatArray.Length; rBoat++)
+            {
+                if (rowingBoatArray[rBoat] != null)
+                {
+                    rowingBoatArray[rBoat].DaysInTheDock--;
+                    if (rowingBoatArray[rBoat].DaysInTheDock == 0)
+                    {
+                        rowingBoatArray[rBoat] = null;
+                    }
+                }
+            }
+        }
         public static void ReadFileMemory()
         {
             foreach (var stat in File.ReadAllLines("Statistics.txt", Encoding.UTF8))
@@ -331,7 +348,7 @@ namespace TheDock
             int z = 0;
             if (new FileInfo("TheDock.txt").Length == 0)
             {
-                Console.WriteLine($"{rejectedBoats}:rejected boats\t\t{days}:Day");
+                Console.WriteLine($"{rejectedBoats}:Rejected boats\t{days}:Day\t\t{EmptyPlaces()}:Empty spots\t\t{OccupiedPlaces()}:Occupied spots");
                 Console.WriteLine($"\n\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
                 Console.WriteLine("--------------------------------------------------------------------------------------------");
                 for (; z < boatArray.Length; z++)
@@ -390,8 +407,8 @@ namespace TheDock
             else
             {
 
-                Console.WriteLine($"{rejectedBoats}:rejected boats\t\t{days}:Day\t\t{LinqBoatArrayWeight() + LinqMethodSecRowingBoatWeight()}:total weight" +
-               $"\t\t{ConvertKnotToKmH(LinqAverageSpeed(boatArray, rowingBoatArray)):N0}Km/h :average speed");
+                Console.WriteLine($"{rejectedBoats}:Rejected boats\t{days}:Day\t{EmptyPlaces()}:Empty spots\t{OccupiedPlaces()}:Occupied spots\t{LinqBoatArrayWeight() + LinqMethodSecRowingBoatWeight()}:Total weight" +
+               $"\t{ConvertKnotToKmH(LinqAverageSpeed(boatArray, rowingBoatArray)):N0}Km/h :Average speed");
                 Console.WriteLine();
                 LinqTypeOfBoats();
                 Console.WriteLine($"\n\nSlot\t\tType\t\tBoat-ID\t\tMax Speed\tWeight\t\tOther");
@@ -452,18 +469,18 @@ namespace TheDock
         public static double LinqAverageSpeed(BoatProperties[] boatArray, BoatProperties[] rowigBoatArray)
         {
 
-                var q = rowingBoatArray
-                .Where(p => p != null && p.MaxSpeed >= 1)
-                .Select(p => p.MaxSpeed);
+            var q = rowingBoatArray
+            .Where(p => p != null && p.MaxSpeed >= 1)
+            .Select(p => p.MaxSpeed);
 
-                var q1 = boatArray
-                .Where(p => p != null && p.MaxSpeed >= 1)
-                .Select(p => p.MaxSpeed);
+            var q1 = boatArray
+            .Where(p => p != null && p.MaxSpeed >= 1)
+            .Select(p => p.MaxSpeed);
 
-                var q2 = q1
-                .Concat(q)
-                .Average();
-                return q2;
+            var q2 = q1
+            .Concat(q)
+            .Average();
+            return q2;
         }
         public static double ConvertKnotToKmH(double knot)
         {
