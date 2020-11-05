@@ -29,6 +29,10 @@ namespace TheDock
         }
         public static void StartsTheProgramTheDock()
         {
+            if(!File.Exists("TheDock.txt"))
+            {
+                File.Create("TheDock.txt");
+            }
             if (new FileInfo("TheDock.txt").Length == 0)
             {
                 PrintsDock();
@@ -52,6 +56,7 @@ namespace TheDock
                     SavesTheDockToFile();
                 }
             }
+
         }
         public static void CreatesBoats()
         {
@@ -255,19 +260,16 @@ namespace TheDock
                                 RowingBoat r = new RowingBoat(int.Parse(boatData[0]), boatData[1], int.Parse(boatData[2]), int.Parse(boatData[3]),
                                     boatData[4], boatData[5], int.Parse(boatData[6]), int.Parse(boatData[7]));
                                 addBoat(r, boatArray);
-
                                 break;
                             case 'P':
                                 PowerBoat p = new PowerBoat(int.Parse(boatData[0]), boatData[1], int.Parse(boatData[2]), int.Parse(boatData[3]),
                                     boatData[4], boatData[5], int.Parse(boatData[6]), int.Parse(boatData[7]));
                                 addBoat(p, boatArray);
-
                                 break;
                             case 'S':
                                 Sailboat s = new Sailboat(int.Parse(boatData[0]), boatData[1], int.Parse(boatData[2]), int.Parse(boatData[3]),
                                     boatData[4], boatData[5], int.Parse(boatData[6]), int.Parse(boatData[7]));
                                 addBoat(s, boatArray);
-
                                 break;
                             case 'C':
                                 CargoShip c = new CargoShip(int.Parse(boatData[0]), boatData[1], int.Parse(boatData[2]), int.Parse(boatData[3]),
@@ -283,7 +285,6 @@ namespace TheDock
                                 break;
                         }
                     }
-
                 }
             }
 
@@ -468,7 +469,6 @@ namespace TheDock
         }
         public static double LinqAverageSpeed(BoatProperties[] boatArray, BoatProperties[] rowigBoatArray)
         {
-
             var q = rowingBoatArray
             .Where(p => p != null && p.MaxSpeed >= 1)
             .Select(p => p.MaxSpeed);
