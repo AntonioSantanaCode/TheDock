@@ -31,7 +31,8 @@ namespace TheDock
         {
             if(!File.Exists("TheDock.txt"))
             {
-                File.Create("TheDock.txt");
+                File.Create("TheDock.txt").Close();
+
             }
             if (new FileInfo("TheDock.txt").Length == 0)
             {
